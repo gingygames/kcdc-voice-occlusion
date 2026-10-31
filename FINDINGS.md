@@ -100,7 +100,8 @@ and leaks through open doors; plus markers over players who would hear you.
 **Floors: possible, binary.** Only for pairs within range and at least 1.8 m apart in height. The server asks clients
 to trace (`World.raycastAll(player, from, to, { maxHits: 8 })` runs on the chosen player's machine), counts a
 "floor" as a hit with `|normal.z| ≥ 0.7` between the two heights that is neither terrain nor a stairs surface, and calls
-`Voice.setLocalMute` both ways when every ray hits a floor according to both players' clients. A gallery open to a hall
+`Voice.setLocalMute` both ways when every ray hits a floor according to either player's client (a lying client
+can mute itself but cannot unmute a pair to eavesdrop). A ready resource: [voicefloors/](voicefloors/). A gallery open to a hall
 stays audible because one ray gets through. To scale, classify a storey per player instead of per pair: floor height
 from `Navigation.floorAt` (server-side, authoritative) plus one ray up to the ceiling per second. Limits: voice cuts
 in and out instead of fading, the first words after changing floors can leak (~0.5–1 s), and walls are not handled.

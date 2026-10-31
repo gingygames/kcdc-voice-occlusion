@@ -211,5 +211,5 @@ collected in [README.md](README.md#status).
 ## What we can contribute
 
 A test server with ready-made scenarios, tuning of the material scale and penalties, and a pull request for Layer 1
-in MafiaHub Framework, if you would take one. Meanwhile we are building a script-only fallback for floors (binary,
-using `World.raycastAll(player, …)` and `Voice.setLocalMute`) and will share what we learn from it.
+in MafiaHub Framework, if you would take one. Meanwhile there is a script-only fallback for floors, [voicefloors/](voicefloors/) (binary,
+using `World.raycastAll(player, …)` and `Voice.setLocalMute`); we will share what we learn from it.

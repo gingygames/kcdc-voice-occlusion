@@ -15,12 +15,14 @@ upstairs isn't heard by everyone waiting downstairs.
 - So voice could get realistic occlusion largely from the engine: either play live voice as a native speech line
   (Option A0) or apply the engine's computed occlusion to the existing voice channel (Option A). Cost stays flat in
   crowds, because a client mixes at most 6 talkers.
-- Until then, a server resource can stop voice carrying **between floors** (binary, via `Voice.setLocalMute`).
+- Until then, server owners can drop in [voicefloors/](voicefloors/): it stops voice carrying **between floors**
+  today (binary, via `Voice.setLocalMute`, server-only, experimental).
 
 | document | content |
 |---|---|
 | [FINDINGS.md](FINDINGS.md) | how KCDC voice works today, the script API, what the game data and binary contain, what a resource can do now |
 | [PROPOSAL.md](PROPOSAL.md) | proposed implementation: Framework layer, KCDC occlusion provider (A0 / A / B), crowds, third-person camera, cheating, tests |
+| [voicefloors/](voicefloors/) | **for server owners now:** server-only resource that mutes players on different floors |
 | [probe/](probe/) | a small resource that tests the key assumption in game with one client |
 
 ## Status
@@ -29,7 +31,7 @@ upstairs isn't heard by everyone waiting downstairs.
 |---|---|
 | API, Framework source and game data analysis | done (2026-10-31, KCDC 1.7.3) |
 | In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`?) | pending, results will be added here |
-| Script-only floor fallback for servers | in development |
+| Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | experimental: tests pass, starts on KCDC 1.7.3, not yet verified with two players |
 
 ## Notes
 
