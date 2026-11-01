@@ -1,0 +1,35 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: voicefloors tests
+        run: node voicefloors/test/voicefloors.test.mjs
+      - name: probe tests
+        run: node probe/test/probe.test.mjs
+      - name: builds
+        run: |
+          node voicefloors/build.mjs
+          node probe/build.mjs
+          node --check voicefloors/dist/voicefloors/server.js
+          node --check probe/dist/voiceprobe/server.js
+          node --check probe/dist/voiceprobe/client.js
+      - name: release archives
+        run: |
+          mkdir -p out
+          (cd voicefloors/dist && zip -qr ../../out/voicefloors.zip voicefloors)
+          (cd probe/dist && zip -qr ../../out/voiceprobe.zip voiceprobe)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: resources
+          path: out/*.zip
+          retention-days: 30

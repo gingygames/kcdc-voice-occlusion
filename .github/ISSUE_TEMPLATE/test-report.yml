@@ -1,0 +1,58 @@
+name: Test report
+description: What you observed in game with voicefloors or the probe. Results from other servers are the most useful thing you can send.
+title: "[test] "
+labels: [test-report]
+body:
+  - type: dropdown
+    id: what
+    attributes:
+      label: What did you test
+      options:
+        - voicefloors (voice between floors)
+        - probe (occlusion of a sound on an entity)
+        - both
+    validations:
+      required: true
+  - type: input
+    id: kcdc
+    attributes:
+      label: Kingdoms Connected version
+      placeholder: "1.7.3"
+    validations:
+      required: true
+  - type: input
+    id: resource
+    attributes:
+      label: Resource version
+      description: From package.json in the resource folder, or the commit you built from.
+      placeholder: "voicefloors 0.2.0"
+  - type: input
+    id: players
+    attributes:
+      label: Players in the test
+      placeholder: "2 (one upstairs, one downstairs)"
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Where and how
+      description: Building, floors, doors, voice tier, what each player did.
+      placeholder: "Tavern in Kuttenberg, A in the taproom, B in the room above. Normal tier. B walked down the stairs while A kept talking."
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What happened
+      description: What was heard and when. Paste the output of `/voicefloors why <player>`, `/voicefloors stats`, `/voiceprobe hear` or the probe's results table if you have it.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+  - type: textarea
+    id: log
+    attributes:
+      label: Server log lines
+      description: Lines mentioning voicefloors or voiceprobe from the server log, if any.
+      render: text

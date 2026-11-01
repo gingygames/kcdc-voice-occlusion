@@ -23,15 +23,22 @@ upstairs isn't heard by everyone waiting downstairs.
 | [FINDINGS.md](FINDINGS.md) | how KCDC voice works today, the script API, what the game data and binary contain, what a resource can do now |
 | [PROPOSAL.md](PROPOSAL.md) | proposed implementation: Framework layer, KCDC occlusion provider (A0 / A / B), crowds, third-person camera, cheating, tests |
 | [voicefloors/](voicefloors/) | **for server owners now:** server-only resource that mutes players on different floors |
-| [probe/](probe/) | a small resource that tests the key assumption in game with one client |
+| [probe/](probe/) | a small resource that tests the key assumption in game with one client, records results, lists who you hear |
+| [CHANGELOG.md](CHANGELOG.md) | what changed in each version |
 
 ## Status
+
+[![test](https://github.com/gingygames/kcdc-voice-occlusion/actions/workflows/test.yml/badge.svg)](https://github.com/gingygames/kcdc-voice-occlusion/actions/workflows/test.yml)
 
 | | |
 |---|---|
 | API, Framework source and game data analysis | done (2026-10-31, KCDC 1.7.3) |
-| In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`?) | pending, results will be added here |
-| Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | experimental: tests pass, starts on KCDC 1.7.3, not yet verified with two players |
+| In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`, or to the FMOD `occlusion` parameter set directly?) | pending, results will be added here (`/voiceprobe result` records them, `probe/tools/results-md.mjs` renders the table) |
+| Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | 0.2.0, experimental: 30 tests pass, starts on KCDC 1.7.3, not yet verified with two players |
+
+Ready-to-copy resource folders (`voicefloors.zip`, `voiceprobe.zip`) are attached to each
+[release](https://github.com/gingygames/kcdc-voice-occlusion/releases) and built by CI for every push. Tested it on
+your server? Please open a [test report](https://github.com/gingygames/kcdc-voice-occlusion/issues/new?template=test-report.yml).
 
 ## Notes
 

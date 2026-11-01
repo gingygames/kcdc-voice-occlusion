@@ -10,7 +10,7 @@ mkdirSync(out, { recursive: true });
 for (const f of ["config.js", "server.js"]) copyFileSync(join(here, "src", f), join(out, f));
 writeFileSync(join(out, "package.json"), JSON.stringify({
   name: "voicefloors",
-  version: "0.1.0",
+  version: "0.2.0",
   description: "Stops proximity voice carrying between floors (server-only, Voice.setLocalMute + client raycasts)",
   mafiahub: {
     serverScripts: ["config.js", "server.js"],
