@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **quietactions 0.1.0** (new resource): silences other players' never-culled first-person sounds (washing, cooking,
+  laundry) on every client and replaces the first-person dice sounds with the positioned table sound at every server
+  dice event. Band-aid for the KCDC bug in PLAYER-ONLY-SOUNDS.md; 8 tests.
+- probe: `quiet` command (stop only the sound playing on the probe), NPC removed 0.6 s after `stop`.
+- Findings: `Audio.playFile` sounds cannot be stopped and outlive their entity; player-only game sounds are never
+  culled; in-game probe results (engine occlusion applies to speech events behind walls, not through wooden floors;
+  `occlusion` parameter automated; listener follows the camera).
+
 ## 0.2.0 – 2026-11-01
 
 ### voicefloors

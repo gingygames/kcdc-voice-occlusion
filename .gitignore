@@ -1,4 +1,5 @@
 probe/dist/
 probe/stream/
 voicefloors/dist/
+quietactions/dist/
 node_modules/

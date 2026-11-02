@@ -24,6 +24,7 @@ upstairs isn't heard by everyone waiting downstairs.
 | [PROPOSAL.md](PROPOSAL.md) | proposed implementation: Framework layer, KCDC occlusion provider (A0 / A / B), crowds, third-person camera, cheating, tests |
 | [voicefloors/](voicefloors/) | **for server owners now:** server-only resource that mutes players on different floors |
 | [probe/](probe/) | a small resource that tests the key assumption in game with one client, records results, lists who you hear |
+| [quietactions/](quietactions/) | **for server owners now:** band-aid for that bug: silences those sounds on other players' bodies and plays positioned dice sounds instead |
 | [PLAYER-ONLY-SOUNDS.md](PLAYER-ONLY-SOUNDS.md) | a related KCDC bug found with the probe: other players' dice, washing and cooking are heard at any distance (never-culled 2D "player" sound variants), with the trigger list, repro and a possible script-side patch |
 | [CHANGELOG.md](CHANGELOG.md) | what changed in each version |
 
@@ -36,6 +37,7 @@ upstairs isn't heard by everyone waiting downstairs.
 | API, Framework source and game data analysis | done (2026-10-31, KCDC 1.7.3) |
 | In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`, or to the FMOD `occlusion` parameter set directly?) | **done 2026-11-02, KCDC 1.7.3, one client, Kuttenberg tavern:** the switch is accepted; `MultiRay` is audibly muffled compared with `Ignore` outside behind the wall on the same floor; one storey up no difference was heard (wooden floors carry `sound_obstruction` 0.1, so a voice model needs a floor penalty); `occlusion=1` set directly muffles clearly (4/5), so the speech events do automate the parameter; moving the camera 15 m back changes loudness, so the game's listener follows the camera, not the body. Option A0 is viable; details in [PROPOSAL.md](PROPOSAL.md#probe-results-2026-11-02) |
 | Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | 0.2.0, experimental: 30 tests pass, starts on KCDC 1.7.3, not yet verified with two players |
+| Player-only game sounds heard everywhere ([PLAYER-ONLY-SOUNDS.md](PLAYER-ONLY-SOUNDS.md)) | verified in game 2026-11-02; KCDC bug, reported to the team; band-aid resource [quietactions/](quietactions/) 0.1.0 (8 tests, not yet verified with two players) |
 | Framework-side proposal (Layer 1 of [PROPOSAL.md](PROPOSAL.md)) | filed as [MafiaHub/Framework#367](https://github.com/MafiaHub/Framework/issues/367) on 2026-11-02, awaiting the maintainers' view; a pull request is offered there |
 
 Ready-to-copy resource folders (`voicefloors.zip`, `voiceprobe.zip`) are attached to each
