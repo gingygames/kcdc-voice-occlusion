@@ -2,7 +2,7 @@
 
 Researched 2026-10-31 against Kingdoms Connected **1.7.3** (`@kingdomsconnected/types` 1.7.2 and 1.7.3, the voice API
 is identical in both), the open-source [MafiaHub Framework](https://github.com/MafiaHub/Framework)
-(`code/framework/src/voice/`, `main` as of 2026-10-30), strings in `KCDCClient.dll` 1.7.3, and the retail
+(`code/framework/src/voice/`, default branch `develop` as of 2026-10-30; there is no `main`), strings in `KCDCClient.dll` 1.7.3, and the retail
 Kingdom Come: Deliverance II data (`IPL_GameData.pak`, `Scripts.pak`, `WHGame.dll`). No game files are included in this
 repository; everything below is names and numbers you can check in your own install.
 
@@ -29,8 +29,23 @@ on the framework's own device". No occlusion is applied on that path either, alt
 5 KB/s per listener.
 
 **Third-person camera.** `ListenerTransform` already has `attenuationPosition`, documented as the place where "a
-third-person game puts … the character" while the camera stays in `position`. Whether KCDC fills it could not be
-determined statically.
+third-person game puts … the character" while the camera stays in `position`. It came in with
+[PR #247](https://github.com/MafiaHub/Framework/pull/247) (merged 2026-08-15): distance is measured from it, panning
+still from the camera, and zero means "unset, use the camera". Whether KCDC fills it could not be determined
+statically; the probe's `camera` command tests it in game.
+
+**Voice in the Framework's history (checked 2026-11-02).** Voice is an actively developed area: server relay M1
+([#243](https://github.com/MafiaHub/Framework/pull/243)) and client mixer M2
+([#245](https://github.com/MafiaHub/Framework/pull/245)) in July 2026, runtime-settable rolloff radius
+([#265](https://github.com/MafiaHub/Framework/pull/265)), virtual-world routing
+([#284](https://github.com/MafiaHub/Framework/pull/284)), relay and codec off the main thread
+([#345](https://github.com/MafiaHub/Framework/pull/345), October), and an open PR that hands a player's Opus packets to
+server scripts ([#365 `Voice.capture`](https://github.com/MafiaHub/Framework/pull/365)). A single-client test bench
+with a synthetic speaker was proposed twice and closed unmerged
+([#258](https://github.com/MafiaHub/Framework/pull/258), [#334](https://github.com/MafiaHub/Framework/pull/334), branch
+`voice/bench` still exists). No issue, PR or branch mentions occlusion, walls or floors. The repository's licence
+(MafiaHub OSS license, clause 5) permits derivative work only in order to contribute it back, so the way to change the
+Framework is an issue or a pull request there, not a fork.
 
 ### Script API
 

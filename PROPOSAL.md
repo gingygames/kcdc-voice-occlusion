@@ -6,7 +6,7 @@ Roleplay servers need proximity voice that respects buildings. Today a player up
 word said in the cellar, and a conversation behind a closed door carries as if the door were not there. Distance
 tiers (whisper / normal / shout) cannot fix this, because the problem is geometry, not range.
 
-## What we found (KCDC 1.7.3, MafiaHub Framework `main` as of 2026-10-30)
+## What we found (KCDC 1.7.3, MafiaHub Framework `develop` as of 2026-10-30)
 
 Details and sources: [FINDINGS.md](FINDINGS.md).
 
@@ -173,8 +173,9 @@ Relay is already decided by the server from body positions, but loudness, pan an
 whatever the listener is.
 
 - **Framework already has the field:** `ListenerTransform::attenuationPosition` ("a third-person game puts the camera
-  in `position` and the character here"). KCDC should fill it with the local character's head whenever the camera is
-  not in first person.
+  in `position` and the character here"), added by [PR #247](https://github.com/MafiaHub/Framework/pull/247) for
+  exactly this problem. KCDC should fill it with the local character's head whenever the camera is not in first
+  person.
 - **FMOD path (A0 or game sounds generally):** FMOD Studio has the same split,
   `Studio::System::setListenerAttributes(listener, attributes, attenuationposition)`. Set `attenuationposition` to the
   character's head. Simpler and also right for occlusion: in third person put the listener *position* at the head and
@@ -207,6 +208,25 @@ collected in [README.md](README.md#status).
 4. Stone wall vs plank wall vs palisade.
 5. Outdoors on a slope with a 3 m height difference: unaffected.
 6. 20 players in one building: frame time and number of rays.
+
+## Precedents in the Framework
+
+Layer 1 follows patterns the Framework already uses, so it should read as a continuation rather than a new subsystem:
+
+- `SpeakerPlacement` is what an engine sink reads back to "shape its own attenuation the same way"
+  (`voice_client.h`), so an `occlusion` next to it reaches KCDC's FMOD sink through the existing `PublishWorld`.
+- The per-speaker gain path already takes runtime knobs read atomically once per render callback (full-volume
+  fraction, [#265](https://github.com/MafiaHub/Framework/pull/265)); an occlusion gain and a low-pass cutoff are two
+  more of the same kind.
+- `ListenerTransform::attenuationPosition` ([#247](https://github.com/MafiaHub/Framework/pull/247)) already splits
+  "where loudness is measured" from "where panning is measured"; occlusion rays should start from the same point.
+- Script-facing voice API grows when a feature needs it: `Voice.capture`
+  ([#365](https://github.com/MafiaHub/Framework/pull/365)) hands Opus packets to server scripts without the server ever
+  decoding voice. `setLocalVolume` and `setOcclusionModel` are the same kind of addition, and the strict mode below can
+  ride on the relay header rather than on decoding.
+- The single-client bench proposed in [#334](https://github.com/MafiaHub/Framework/pull/334) (branch `voice/bench`,
+  a synthetic speaker at a movable position) would let the low-pass and gain of Layer 1 be heard and measured by one
+  client without a second player.
 
 ## What we can contribute
 
