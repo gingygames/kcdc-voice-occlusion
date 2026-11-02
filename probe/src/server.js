@@ -35,12 +35,15 @@ function defaultSource() {
   }
 }
 
-function stop(p) {
+function stop(p, immediate) {
   const s = probes.get(p.id);
   if (!s) return;
   p.emit(EV.stop, "{}");
-  try { s.npc.remove(); } catch (e) { /* already gone */ }
   probes.delete(p.id);
+  // The client stops the sounds first; a file played with Audio.playFile keeps playing when its entity simply
+  // vanishes, so the NPC goes half a second later (the stop event and the removal are not ordered on the wire).
+  const remove = () => { try { s.npc.remove(); } catch (e) { /* already gone */ } };
+  if (immediate || typeof setTimeout !== "function") remove(); else setTimeout(remove, 600);
 }
 
 function spawn(p) {
@@ -169,7 +172,7 @@ Events.onClient(EV.report, (sender, payload) => {
 });
 Events.onClient(EV.resultState, (sender, payload) => saveResult(sender, obj(payload)));
 
-Events.on("playerDisconnect", (p) => { stop(p); pendingResults.delete(p.id); });
+Events.on("playerDisconnect", (p) => { stop(p, true); pendingResults.delete(p.id); });
 Events.on("resourceStop", (name) => {
   if (name !== RESOURCE) return;
   for (const s of probes.values()) {

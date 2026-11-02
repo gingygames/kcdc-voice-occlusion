@@ -46,7 +46,7 @@ function setup() {
   const mk = (id, x, y, z) => ({ id, nickname: "p" + id, virtualWorld: 0, position: new V3(x, y, z), emit: (n, payload) => (ch[n] ?? []).forEach((f) => f(payload)) });
   players.push(mk(1, 10, 10, 100), mk(2, 14, 10, 103.5), mk(3, 200, 200, 100));
   const server = {
-    console: { log() {} }, Math, Object, String, Number, Date, JSON, Promise,
+    console: { log() {} }, Math, Object, String, Number, Date, JSON, Promise, setTimeout: (f) => f(),
     require: (m) => (m === "fs" ? { ...fsShim } : null),
     Events: { on: (n, f) => ((sh[n] ??= []).push(f)), onClient: (n, f) => ((sh[n] ??= []).push(f)) },
     Chat: { sendToPlayer: (p, t) => chat.push([p.id, t]) },
