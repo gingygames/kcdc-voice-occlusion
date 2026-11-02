@@ -33,7 +33,7 @@ upstairs isn't heard by everyone waiting downstairs.
 | | |
 |---|---|
 | API, Framework source and game data analysis | done (2026-10-31, KCDC 1.7.3) |
-| In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`, or to the FMOD `occlusion` parameter set directly?) | pending, results will be added here (`/voiceprobe result` records them, `probe/tools/results-md.mjs` renders the table) |
+| In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`, or to the FMOD `occlusion` parameter set directly?) | **done 2026-11-02, KCDC 1.7.3, one client, Kuttenberg tavern:** the switch is accepted; `MultiRay` is audibly muffled compared with `Ignore` outside behind the wall on the same floor; one storey up no difference was heard (wooden floors carry `sound_obstruction` 0.1, so a voice model needs a floor penalty); `occlusion=1` set directly muffles clearly (4/5), so the speech events do automate the parameter; moving the camera 15 m back changes loudness, so the game's listener follows the camera, not the body. Option A0 is viable; details in [PROPOSAL.md](PROPOSAL.md#probe-results-2026-11-02) |
 | Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | 0.2.0, experimental: 30 tests pass, starts on KCDC 1.7.3, not yet verified with two players |
 | Framework-side proposal (Layer 1 of [PROPOSAL.md](PROPOSAL.md)) | filed as [MafiaHub/Framework#367](https://github.com/MafiaHub/Framework/issues/367) on 2026-11-02, awaiting the maintainers' view; a pull request is offered there |
 

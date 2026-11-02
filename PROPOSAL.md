@@ -204,6 +204,23 @@ Walking upstairs, behind a wall or out through a closed door and toggling the mo
 to the engine's occlusion. If they do, Option A0 needs no new acoustics at all, only the PCM stream. Results are
 collected in [README.md](README.md#status).
 
+## Probe results (2026-11-02)
+
+KCDC 1.7.3, one client, a 109 s music file played with `Audio.playFile(file, npc, "20")` (host event `bark_020`) on an
+NPC in a Kuttenberg tavern, modes alternated every 3 s without restarting the sound (`/voiceprobe ab`):
+
+| test | result | meaning |
+|---|---|---|
+| `Audio.setEntitySwitch(npc, "ObstrOcclCalcType", …)` | accepted for `Ignore`, `SingleRay`, `MultiRay` | scripts can drive the engine's occlusion mode per entity |
+| outside, behind the tavern wall, same floor | `MultiRay` audibly muffled, `Ignore` not | **the speech host events respond to the engine's occlusion**: Option A0 gets walls from the engine |
+| one storey up, above the NPC | no audible difference | wooden floors have `sound_obstruction` 0.1; the vanilla values are tuned for ambience, a voice model needs `floorPenalty` / `materialScale` (Layer 1 above) |
+| `Audio.setEntityParameter(npc, "occlusion" / "obstruction", 1)` | accepted; clearly muffled (4 of 5) | the events automate `occlusion`, so Option A (set the value on the channel) works even where the engine's own calculation is off |
+| `Camera.setThirdPerson({ distance: 15 })`, body still | loudness changes with the camera alone | the game's FMOD listener follows the camera; KCDC should fill `attenuationPosition` / move the listener to the head (section above), or a camera pulled through a wall hears the room |
+| `Audio.stopAllOnEntity`, NPC removed | the file keeps playing to its end | KCDC's programmer-sound instance is not owned by the entity: A0 must manage instance lifetime itself (a leaving player's voice must not outlive the body) |
+
+Conclusion: A0 needs no new acoustics. What it needs is the PCM stream into the host event, a voice-tuned
+occlusion scale (floors above all), the listener at the head in third person, and explicit instance lifetime.
+
 ## Test scenarios
 
 1. Cellar / ground floor / upper floor of a tavern: no voice across floors at normal tier, muffled shout.
