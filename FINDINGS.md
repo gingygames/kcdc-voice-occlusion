@@ -105,6 +105,22 @@ NPC speech plays through `event:/voice/dialog/bark_010`, `bark_020`, `bark_035`,
 `bark_inner`, `dialog` and `cinematic`. These are the host events KCDC's `Audio.playFile(file, entityId, purpose)`
 already uses (`purpose` = `10` … `200`, `inner`, `sfp_dialog`, …).
 
+**How a `playFile` sound lives (verified in game 2026-11-02, KCDC 1.7.3, one client).** A file started with
+`Audio.playFile` on an NPC cannot be stopped from a script: `Audio.stopAllOnEntity` and `stopOnEntity` leave it
+playing, and it plays to its end (a 109 s file, all of it) after the NPC is removed. An ATL trigger started with
+`Audio.playOnEntity` on the same NPC is bound to the entity's audio proxy and stops with it. So KCDC's
+programmer-sound instance is not owned by the entity. For Option A0 this means KCDC must manage the instance itself
+(a leaving player's voice must not outlive the body), and an `Audio.stopFile` for scripts would be welcome in any case.
+
+**Player-only game sounds heard at any distance (verified the same day).** The game has first-person variants of some
+action sounds that are never distance-culled (`distance_culling="65535"` in `Libs/GameAudio/special.xml`) and 2D by
+design, because in single player only Henry performs them: `dice_wood1_player`, `dice_shake_player`,
+`dice_bowl_put_player`, `special_player_washing`, `special_player_cooking`, `special_washing_laundry`. Played on an
+NPC they are heard unchanged 50 m away, while the positioned variants (`dice_put`, `f_ta_leather_wash`) fade as
+expected. On a KCDC server another player's dice game, washing or cooking is therefore heard by everyone who has that
+body streamed, as if they were doing it themselves. Unrelated to occlusion (the sound has no position); reported to
+the KCDC team separately.
+
 ## 3. What a server resource can do today
 
 **Range key and reach preview: fully possible.** A key with more steps than the three tiers (e.g. 2 / 5 / 12 / 20 /

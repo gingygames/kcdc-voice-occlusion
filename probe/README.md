@@ -22,7 +22,9 @@ console, or restart the server).
 `probe/stream/sounds/kcdc/voiceprobe/test.ogg` before building: the probe then plays it with
 `Audio.playFile("sounds/kcdc/voiceprobe/test", npc, "20")`. Without it the probe falls back to the game trigger
 `a_o_bell_kkut_kostelni` (`Audio.playOnEntity`), which tests the game's own event path instead. A streamed file from
-another resource works too: set `defaultSound` in `src/strings.js`.
+another resource works too: set `defaultSound` in `src/strings.js`. Keep test files short: a file started with
+`Audio.playFile` cannot be stopped by a script and plays to its end even after the NPC is removed (KCDC 1.7.3), while
+triggers stop with `quiet` or `stop`.
 
 **Other language or command name.** All texts, the command word and the subcommand words live in `src/strings.js`.
 Swap that file for a translated copy with another `name` and build with that name (the Czech `hlassonda` in
