@@ -35,6 +35,7 @@ upstairs isn't heard by everyone waiting downstairs.
 | API, Framework source and game data analysis | done (2026-10-31, KCDC 1.7.3) |
 | In-game probe (does a KCDC-played speech event respond to `ObstrOcclCalcType`, or to the FMOD `occlusion` parameter set directly?) | pending, results will be added here (`/voiceprobe result` records them, `probe/tools/results-md.mjs` renders the table) |
 | Script-only floor fallback for servers ([voicefloors/](voicefloors/)) | 0.2.0, experimental: 30 tests pass, starts on KCDC 1.7.3, not yet verified with two players |
+| Framework-side proposal (Layer 1 of [PROPOSAL.md](PROPOSAL.md)) | filed as [MafiaHub/Framework#367](https://github.com/MafiaHub/Framework/issues/367) on 2026-11-02, awaiting the maintainers' view; a pull request is offered there |
 
 Ready-to-copy resource folders (`voicefloors.zip`, `voiceprobe.zip`) are attached to each
 [release](https://github.com/gingygames/kcdc-voice-occlusion/releases) and built by CI for every push. Tested it on

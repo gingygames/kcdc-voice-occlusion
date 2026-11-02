@@ -1,5 +1,9 @@
 # Proposal: occlusion-aware proximity voice (walls, floors, materials)
 
+> The Framework layer of this proposal is filed with the MafiaHub Framework maintainers as
+> [MafiaHub/Framework#367](https://github.com/MafiaHub/Framework/issues/367) (2026-11-02). Discussion of the generic
+> part belongs there; the KCDC-specific part (Layer 2) stays here until the probe results are in.
+
 ## Why
 
 Roleplay servers need proximity voice that respects buildings. Today a player upstairs in a tavern hears every
