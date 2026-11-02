@@ -24,6 +24,7 @@ upstairs isn't heard by everyone waiting downstairs.
 | [PROPOSAL.md](PROPOSAL.md) | proposed implementation: Framework layer, KCDC occlusion provider (A0 / A / B), crowds, third-person camera, cheating, tests |
 | [voicefloors/](voicefloors/) | **for server owners now:** server-only resource that mutes players on different floors |
 | [probe/](probe/) | a small resource that tests the key assumption in game with one client, records results, lists who you hear |
+| [PLAYER-ONLY-SOUNDS.md](PLAYER-ONLY-SOUNDS.md) | a related KCDC bug found with the probe: other players' dice, washing and cooking are heard at any distance (never-culled 2D "player" sound variants), with the trigger list, repro and a possible script-side patch |
 | [CHANGELOG.md](CHANGELOG.md) | what changed in each version |
 
 ## Status
