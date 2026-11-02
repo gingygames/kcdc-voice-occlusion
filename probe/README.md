@@ -42,6 +42,7 @@ Swap that file for a translated copy with another `name` and build with that nam
 | `/voiceprobe hear` | which players within 60 m this client is playing right now (`Voice.isPlayerTalking`), plus your tier and range |
 | `/voiceprobe bench [rays]` | times `World.raycastAll` on this client: 100 horizontal 20 m rays by default |
 | `/voiceprobe nav` | `Navigation.floorAt` where you stand and, with a probe spawned, path lengths to it through open doors / ignoring closed doors / any door |
+| `/voiceprobe quiet` | stops only the sound now playing on the probe (`Audio.stopOnEntity` for a trigger, `stopAllOnEntity` for a file); the NPC stays. If you still hear it, the sound is not bound to the entity |
 | `/voiceprobe stop` | removes the NPC |
 
 Each step reports in chat whether the game accepted the switch, the parameters and the sound (`accepted` /

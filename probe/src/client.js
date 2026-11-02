@@ -4,7 +4,7 @@
 
 const T = globalThis.VOICEPROBE_I18N;
 const RESOURCE = T.name;
-const EV = Object.fromEntries(["start", "mode", "play", "camera", "stop", "report", "occlusion", "ab", "result", "resultState", "hear", "bench"].map((k) => [k, `${RESOURCE}:${k}`]));
+const EV = Object.fromEntries(["start", "mode", "play", "camera", "stop", "report", "occlusion", "ab", "result", "resultState", "hear", "bench", "quiet"].map((k) => [k, `${RESOURCE}:${k}`]));
 const SWITCH = "ObstrOcclCalcType"; // Libs/GameAudio/default_controls.xml
 const PARAMS = ["occlusion", "obstruction"]; // Libs/GameAudio/g_rtpcs.xml -> FMOD parameters
 
@@ -160,6 +160,16 @@ Events.on(EV.bench, (payload) => {
     hits += World.raycastAll(from, to, { mode: "cover", maxHits: 8 }).length;
   }
   report(T.benchReport(n, Date.now() - t0, hits));
+});
+
+// Stop only what plays on the probe now: the named trigger (what a mitigation resource would do) or everything on the entity.
+Events.on(EV.quiet, () => {
+  if (!probe?.ent) return;
+  stopAb(true);
+  const source = probe.source || probe.fallback;
+  const trigger = source.startsWith("trigger:");
+  const ok = trigger ? Audio.stopOnEntity(source.slice(8), probe.ent) : Audio.stopAllOnEntity(probe.ent);
+  report(T.quietDone(source, trigger, ok));
 });
 
 Events.on(EV.stop, () => {

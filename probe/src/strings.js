@@ -10,7 +10,7 @@ globalThis.VOICEPROBE_I18N = {
   defaultSound: "",
   fallbackTrigger: "trigger:a_o_bell_kkut_kostelni",
   // Subcommand words. The English keys are always accepted too.
-  sub: { mode: "mode", play: "play", camera: "camera", stop: "stop", occlusion: "occlusion", ab: "ab", result: "result", hear: "hear", bench: "bench", nav: "nav", help: "help" },
+  sub: { mode: "mode", play: "play", camera: "camera", stop: "stop", occlusion: "occlusion", ab: "ab", result: "result", hear: "hear", bench: "bench", nav: "nav", quiet: "quiet", help: "help" },
   // Mode words for the `mode` subcommand (ignore / single / multi).
   modes: { ignore: "ignore", single: "single", multi: "multi" },
 
@@ -25,6 +25,7 @@ globalThis.VOICEPROBE_I18N = {
     `/${c} ${s.hear} - which players' voice this client is playing right now`,
     `/${c} ${s.bench} [rays] - time World.raycastAll on this client`,
     `/${c} ${s.nav} - Navigation.floorAt here and path lengths to the probe through open / closed / any doors`,
+    `/${c} ${s.quiet} - stop only the sound now playing on the probe (Audio.stopOnEntity for a trigger), the NPC stays`,
     `/${c} ${s.stop} - remove the NPC`,
   ].join("\n"),
 
@@ -61,6 +62,7 @@ globalThis.VOICEPROBE_I18N = {
   abTick: (mode, switched) => `A/B -> ${mode}${switched ? "" : " (switch REJECTED)"}`,
   hearReport: (rows, talking, tier, range) =>
     [`you: ${talking ? "talking" : "silent"}, tier ${tier}, range ${range} m`, ...(rows.length ? rows.map((r) => `${r.nickname} (${r.distance} m): ${r.talking === null ? "unknown" : r.talking ? "HEARD" : "silent"}`) : ["nobody else within 60 m"])].join("\n"),
+  quietDone: (source, trigger, ok) => `${trigger ? "stopOnEntity" : "stopAllOnEntity"} for ${source}: ${ok ? "accepted" : "REJECTED"}. Still hearing it? Then the sound is not bound to the entity.`,
   benchReport: (n, ms, hits) => `${n} x World.raycastAll (20 m, cover, maxHits 8): ${ms} ms total, ${(ms / n).toFixed(2)} ms per ray, ${(hits / n).toFixed(1)} hits per ray on average`,
 };
 // KCDC loads server scripts as CommonJS modules; when they do not share `globalThis`, server.js requires this file.

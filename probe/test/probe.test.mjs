@@ -32,7 +32,7 @@ function setup() {
     Hud: { showNotification: (t) => hud.push(t) },
     World: { entitiesInRadius: () => [{ entityId: 42, class: "NPC_NAI", distance: 0.4 }], raycastAll: () => [{ surface: "mat_wood" }, { surface: "mat_rock" }] },
     Audio: {
-      stopAllOnEntity: () => {}, setEntitySwitch: (e, s, st) => (audio.push(["switch", st]), true),
+      stopAllOnEntity: () => (audio.push(["stopAll"]), true), stopOnEntity: (t) => (audio.push(["stopOne", t]), true), setEntitySwitch: (e, s, st) => (audio.push(["switch", st]), true),
       playFile: (f, e, purpose) => (audio.push(["file", f, purpose]), true), playOnEntity: (t) => (audio.push(["trigger", t]), true),
       setEntityParameter: (e, name, v) => (audio.push(["param", name, v]), name === "occlusion"),
     },
@@ -143,6 +143,16 @@ const tests = {
     t.cmd(t.T.sub.nav);
     assert.ok(t.last().includes("12.0 m"), "open-door path length");
     assert.ok(t.last().includes("30.0 m"), "closed-doors path length");
+  },
+  "quiet stops the named trigger, or everything for a file"(t) {
+    t.cmd();
+    t.cmd(t.T.sub.play, "trigger:special_player_washing");
+    t.cmd(t.T.sub.quiet);
+    assert.deepEqual(t.audio.at(-1), ["stopOne", "special_player_washing"]);
+    assert.equal(t.last(), t.T.quietDone("trigger:special_player_washing", true, true));
+    t.cmd(t.T.sub.play, "sounds/x/y", "20");
+    t.cmd(t.T.sub.quiet);
+    assert.deepEqual(t.audio.at(-1), ["stopAll"]);
   },
   "camera and stop"(t) {
     t.cmd();

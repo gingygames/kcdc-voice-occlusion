@@ -8,7 +8,7 @@
 const T = globalThis.VOICEPROBE_I18N ?? (typeof require === "function" ? require("./strings.js") : null);
 const RESOURCE = T.name;
 if (!globalThis.VOICEPROBE_I18N) console.log(`[${RESOURCE}] strings loaded via require (scripts do not share globalThis)`);
-const EV = Object.fromEntries(["start", "mode", "play", "camera", "stop", "report", "occlusion", "ab", "result", "resultState", "hear", "bench"].map((k) => [k, `${RESOURCE}:${k}`]));
+const EV = Object.fromEntries(["start", "mode", "play", "camera", "stop", "report", "occlusion", "ab", "result", "resultState", "hear", "bench", "quiet"].map((k) => [k, `${RESOURCE}:${k}`]));
 const TEST_FILE = `sounds/kcdc/${RESOURCE}/test`; // stream/sounds/kcdc/<name>/test.ogg, if you add one
 const DATA_DIR = `resources/${RESOURCE}/data`;
 const RESULTS = `${DATA_DIR}/results.json`;
@@ -155,6 +155,10 @@ Events.on("playerCommand", (p, cmd, args) => {
     return p.emit(EV.bench, JSON.stringify({ rays: n >= 1 && n <= 1000 ? Math.floor(n) : 100 }));
   }
   if (sub === "nav") return nav(p);
+  if (sub === "quiet") {
+    if (!probes.has(p.id)) return say(p, T.spawnFirst(RESOURCE));
+    return p.emit(EV.quiet, "{}");
+  }
   spawn(p);
 });
 
